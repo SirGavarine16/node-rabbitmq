@@ -1,0 +1,32 @@
+{
+  "name": "rabbitmq-test",
+  "version": "1.0.0",
+  "description": "Simple Node + Express.js project built with TypeScript.",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "tsc && node dist/index",
+    "dev": "tsc && nodemon dist/index",
+    "watch": "tsc --watch",
+    "build": "tsc"
+  },
+  "keywords": [
+    "Node",
+    "Express.js",
+    "TypeScript",
+    "RabbitMQ"
+  ],
+  "author": "Daniel De la Cruz",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/amqplib": "^0.10.5",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.1",
+    "nodemon": "^3.1.4",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
