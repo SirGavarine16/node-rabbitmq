@@ -20,9 +20,10 @@ export const createApp = async () => {
         const {
             event = "",
             payload = {},
+            routingKey = "default",
         } = req.body;
 
-        producer.execute({ event, payload });
+        producer.execute({ event, payload }, routingKey);
 
         return res.status(201).json({
             message: "Data was sent to broker successfully!",
