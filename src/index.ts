@@ -3,7 +3,7 @@ import amqp from "amqplib/callback_api";
 import { env } from "./configs/env";
 import { createApp } from "./app";
 
-const { user, pass, host, port, queue } = env.rabbitmq;
+const { user, pass, host, port, exchange } = env.rabbitmq;
 
 amqp.connect( `amqp://${user}:${pass}@${host}:${port}/`, (connectionError, connection) => {
     if (connectionError) {
@@ -17,17 +17,28 @@ amqp.connect( `amqp://${user}:${pass}@${host}:${port}/`, (connectionError, conne
             return;
         }
 
-        channel.assertQueue(queue, {
+        channel.assertExchange(exchange, 'fanout', {
             durable: false,
         });
 
-        channel.consume(queue, (payload) => {
-            if (payload) {
-                const data = JSON.parse(payload.content.toString());
-                console.log("RECEIVED", data);
+        channel.assertQueue("", {
+            exclusive: true,
+        }, (queueError, { queue }) => {
+            if (queueError) {
+                console.error("Queue error on consumer", queueError);
+                return;
             }
-        }, {
-            noAck: true,
+
+            channel.bindQueue(queue, exchange, "");
+            
+            channel.consume(queue, (payload) => {
+                if (payload) {
+                    const data = JSON.parse(payload.content.toString());
+                    console.log("RECEIVED", data);
+                }
+            }, {
+                noAck: true,
+            });
         });
     });
 });

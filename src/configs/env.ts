@@ -10,5 +10,6 @@ export const env = {
         user: process.env.RABBITMQ_USER,
         pass: process.env.RABBITMQ_PASS,
         queue: process.env.RABBITMQ_QUEUE || "",
+        exchange: process.env.RABBITMQ_EXCHANGE || "",
     },
 };
